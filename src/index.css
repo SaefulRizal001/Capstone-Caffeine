@@ -109,3 +109,25 @@ html {
   color: #1b6d24 !important;
 }
 
+/* Responsive main content offset matching sidebar breakpoint */
+@media (min-width: 992px) {
+  .main-content-offset {
+    margin-left: 256px !important;
+  }
+}
+@media (max-width: 991.98px) {
+  .main-content-offset {
+    margin-left: 0 !important;
+  }
+}
+
+/* Hide scrollbar utility for clean horizontal swipe */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+

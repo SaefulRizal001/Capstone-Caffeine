@@ -116,32 +116,14 @@ export default function ProfilePage() {
 
         {/* ── MAIN CONTENT ── */}
         <div style={{ flex: 1, paddingLeft: '0' }} className="result-main-content">
-          <div style={{ marginLeft: '0', paddingTop: '0px' }} className="d-lg-none" />
-          <div style={{ marginLeft: '256px', paddingTop: '0px' }} className="d-none d-lg-block" />
-
-          {/* Wrapper with desktop offset */}
-          <div style={{ paddingLeft: '0' }}>
-            
-            {/* Desktop Container */}
-            <main style={{ padding: '40px 32px 60px', marginLeft: '256px' }} className="d-none d-lg-block">
-              <ProfileContent 
-                email={email} setEmail={setEmail}
-                name={name} setName={setName}
-                isEditing={isEditing} setIsEditing={setIsEditing}
-                handleSave={handleSave} handleLogout={handleLogout}
-              />
-            </main>
-
-            {/* Mobile Container */}
-            <main className="d-lg-none px-3 py-4">
-              <ProfileContent 
-                email={email} setEmail={setEmail}
-                name={name} setName={setName}
-                isEditing={isEditing} setIsEditing={setIsEditing}
-                handleSave={handleSave} handleLogout={handleLogout}
-              />
-            </main>
-          </div>
+          <main className="main-content-offset px-3 px-lg-5 py-4 py-lg-5">
+            <ProfileContent 
+              email={email} setEmail={setEmail}
+              name={name} setName={setName}
+              isEditing={isEditing} setIsEditing={setIsEditing}
+              handleSave={handleSave} handleLogout={handleLogout}
+            />
+          </main>
         </div>
 
       </div>

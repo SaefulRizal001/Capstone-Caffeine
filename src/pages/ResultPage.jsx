@@ -122,13 +122,12 @@ export default function ResultPage() {
       {/* Main Layout Container (Sidebar + Content) */}
       <div style={{ display: 'flex', flex: 1, position: 'relative' }}>
 
-        {/* ── SIDEBAR ── */}
+        {/* ── SIDEBAR (Desktop only) ── */}
         <aside style={{
           width: '256px', height: 'calc(100vh - 73px)', background: '#fcf9f8',
           borderRight: '1px solid #d4c3ba', padding: '24px',
           display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
           position: 'fixed', left: 0, top: '73px', zIndex: 100,
-          transition: 'transform 0.3s ease',
         }} className="d-none d-lg-flex">
           {/* Top */}
           <div>
@@ -173,13 +172,7 @@ export default function ResultPage() {
               <div style={{ fontSize: '14px', fontWeight: '600', color: '#1b1c1c' }}>Alex Chen</div>
               <Link
                 to="/profile"
-                style={{
-                  fontSize: '12px',
-                  color: '#82746d',
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                  transition: 'color 0.15s'
-                }}
+                style={{ fontSize: '12px', color: '#82746d', textDecoration: 'none', cursor: 'pointer', transition: 'color 0.15s' }}
                 className="hover-text-green"
               >
                 Edit Profil
@@ -189,39 +182,47 @@ export default function ResultPage() {
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <div style={{ flex: 1, paddingLeft: '0' }} className="result-main-content">
-          <div style={{ marginLeft: '0', paddingTop: '0px' }} className="d-lg-none" />
-          <div style={{ marginLeft: '256px', paddingTop: '0px' }} className="d-none d-lg-block" />
-
-          <div style={{ paddingLeft: '0' }}>
-            {/* Page Content */}
-            <main style={{ padding: '40px 32px 60px', marginLeft: '256px' }} className="d-none d-lg-block">
-              <PageContent
-                hydration={hydration} setHydration={setHydration}
-                activity={activity} setActivity={setActivity}
-                sleep={sleep} setSleep={setSleep}
-                hydrationVal={hydrationVal} activityLabel={activityLabel}
-                sleepVal={sleepVal} metabolicScore={metabolicScore}
-                totalCaffeine={totalCaffeine}
-                setIsModalOpen={setIsModalOpen}
-              />
-            </main>
-            {/* Mobile content */}
-            <main className="d-lg-none px-3 py-4">
-              <PageContent
-                hydration={hydration} setHydration={setHydration}
-                activity={activity} setActivity={setActivity}
-                sleep={sleep} setSleep={setSleep}
-                hydrationVal={hydrationVal} activityLabel={activityLabel}
-                sleepVal={sleepVal} metabolicScore={metabolicScore}
-                totalCaffeine={totalCaffeine}
-                setIsModalOpen={setIsModalOpen}
-              />
-            </main>
-          </div>
+        <div className="main-content-offset" style={{ flex: 1, minWidth: 0, width: '100%' }}>
+          <main style={{ padding: '28px 16px 80px', boxSizing: 'border-box', width: '100%', maxWidth: '1100px' }}>
+            <PageContent
+              hydration={hydration} setHydration={setHydration}
+              activity={activity} setActivity={setActivity}
+              sleep={sleep} setSleep={setSleep}
+              hydrationVal={hydrationVal} activityLabel={activityLabel}
+              sleepVal={sleepVal} metabolicScore={metabolicScore}
+              totalCaffeine={totalCaffeine}
+              setIsModalOpen={setIsModalOpen}
+            />
+          </main>
         </div>
 
       </div>
+
+      {/* ── MOBILE BOTTOM NAVIGATION (hidden on desktop) ── */}
+      <nav className="d-flex d-lg-none" style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
+        background: '#fcf9f8', borderTop: '1px solid #d4c3ba',
+        padding: '8px 0 calc(8px + env(safe-area-inset-bottom))',
+        display: 'flex', justifyContent: 'space-around', alignItems: 'center'
+      }}>
+        {navItems.map(({ icon, label, active, to }) => (
+          <Link
+            key={label}
+            to={to}
+            style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+              padding: '6px 16px', borderRadius: '10px', textDecoration: 'none',
+              background: active ? 'rgba(160,243,153,0.2)' : 'transparent',
+              color: active ? '#217128' : '#82746d',
+              fontSize: '11px', fontWeight: active ? '600' : '400',
+              transition: 'all 0.15s', minWidth: '64px'
+            }}
+          >
+            {icon}
+            {label}
+          </Link>
+        ))}
+      </nav>
 
       {/* ── CAFFEINE MODAL POPUP ── */}
       {isModalOpen && (
@@ -256,13 +257,13 @@ function PageContent({ hydration, setHydration, activity, setActivity, sleep, se
   }, [totalCaffeine]);
 
   return (
-    <div style={{ maxWidth: '1100px' }}>
+    <div style={{ width: '100%', boxSizing: 'border-box' }}>
 
       {/* Page Header */}
-      <div style={{ marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <h1 style={{ fontSize: '30px', fontWeight: '700', color: '#553722', letterSpacing: '-0.3px', margin: 0 }}>Biometric Overview</h1>
-          <p style={{ fontSize: '15px', color: '#50453e', marginTop: '6px', marginBottom: 0 }}>
+      <div style={{ marginBottom: '28px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 style={{ fontSize: 'clamp(20px, 5vw, 30px)', fontWeight: '700', color: '#553722', letterSpacing: '-0.3px', margin: 0 }}>Biometric Overview</h1>
+          <p style={{ fontSize: '14px', color: '#50453e', marginTop: '6px', marginBottom: 0 }}>
             Klirens metabolik kafein Anda saat ini terpantau pada 1.4x baseline.
           </p>
         </div>
@@ -271,9 +272,9 @@ function PageContent({ hydration, setHydration, activity, setActivity, sleep, se
           style={{
             background: '#030712',
             color: '#ffffff',
-            padding: '12px 24px',
+            padding: '10px 18px',
             borderRadius: '8px',
-            fontSize: '14px',
+            fontSize: '13px',
             fontWeight: '600',
             border: 'none',
             display: 'inline-flex',
@@ -281,11 +282,13 @@ function PageContent({ hydration, setHydration, activity, setActivity, sleep, se
             gap: '8px',
             transition: 'all 0.2s ease',
             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            flexShrink: 0
           }}
           className="hover:opacity-90 hover:scale-[1.02] transition-transform"
         >
-          Catat Konsumsi Kafein Baru
+          Catat Konsumsi
           <span style={{ fontSize: '18px', lineHeight: 1 }}>+</span>
         </button>
       </div>
@@ -724,7 +727,7 @@ function CaffeineModal({ onClose, onSave }) {
           <div className="d-flex flex-column gap-2">
             <span style={{ fontSize: '12px', fontWeight: '700', color: '#50453e', letterSpacing: '0.6px' }}>WAKTU KONSUMSI</span>
             <div className="row g-2">
-              <div className="col-6">
+              <div className="col-12 col-sm-6">
                 <button
                   onClick={() => setTimeOption('now')}
                   style={{
@@ -749,7 +752,7 @@ function CaffeineModal({ onClose, onSave }) {
                 </button>
               </div>
 
-              <div className="col-6">
+              <div className="col-12 col-sm-6">
                 <button
                   onClick={() => setTimeOption('custom')}
                   style={{

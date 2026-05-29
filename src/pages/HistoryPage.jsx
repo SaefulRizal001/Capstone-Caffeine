@@ -212,11 +212,8 @@ export default function HistoryPage() {
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <div style={{ flex: 1, minWidth: 0, paddingLeft: '0' }} className="result-main-content">
-          <div style={{ marginLeft: '0', paddingTop: '0px' }} className="d-lg-none" />
-          <div style={{ marginLeft: '256px', paddingTop: '0px' }} className="d-none d-lg-block" />
-
-          <main className="px-3 px-md-5 py-4 py-md-5" style={{ maxWidth: '1200px', marginLeft: '256px' }}>
+        <div className="main-content-offset" style={{ flex: 1, minWidth: 0, width: '100%' }}>
+          <main style={{ padding: '28px 16px 80px', boxSizing: 'border-box', width: '100%', maxWidth: '1200px' }}>
           
           {/* Page Top Header Section */}
           <div className="d-flex flex-column gap-3 mb-4">
@@ -237,7 +234,7 @@ export default function HistoryPage() {
 
             {/* Riwayat Title */}
             <div>
-              <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#553722', margin: 0, letterSpacing: '-0.32px' }}>
+              <h1 style={{ fontSize: 'clamp(22px, 5vw, 32px)', fontWeight: '700', color: '#553722', margin: 0, letterSpacing: '-0.32px' }}>
                 Riwayat
               </h1>
             </div>
@@ -328,55 +325,57 @@ export default function HistoryPage() {
           </div>
 
           {/* Section - Filters & Search controls */}
-          <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-3 mb-4">
+          <div className="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3 mb-4">
             
-            {/* Filter Range tabs */}
-            <div style={{ background: '#f0eded', padding: '4px', borderRadius: '8px', display: 'inline-flex' }}>
-              <button 
-                onClick={() => { setActiveRange('today'); setCurrentPage(1); }}
-                style={{
-                  background: activeRange === 'today' ? '#fff' : 'transparent',
-                  border: 'none', padding: '8px 24px', borderRadius: '6px',
-                  fontSize: '14px', fontWeight: activeRange === 'today' ? '600' : '500',
-                  color: activeRange === 'today' ? '#553722' : '#50453e',
-                  cursor: 'pointer', transition: 'all 0.15s'
-                }}
-                className={activeRange === 'today' ? 'shadow-sm' : ''}
-              >
-                Today
-              </button>
-              <button 
-                onClick={() => { setActiveRange('7d'); setCurrentPage(1); }}
-                style={{
-                  background: activeRange === '7d' ? '#fff' : 'transparent',
-                  border: 'none', padding: '8px 24px', borderRadius: '6px',
-                  fontSize: '14px', fontWeight: activeRange === '7d' ? '600' : '500',
-                  color: activeRange === '7d' ? '#553722' : '#50453e',
-                  cursor: 'pointer', transition: 'all 0.15s'
-                }}
-                className={activeRange === '7d' ? 'shadow-sm' : ''}
-              >
-                Last 7 Days
-              </button>
-              <button 
-                onClick={() => { setActiveRange('30d'); setCurrentPage(1); }}
-                style={{
-                  background: activeRange === '30d' ? '#fff' : 'transparent',
-                  border: 'none', padding: '8px 24px', borderRadius: '6px',
-                  fontSize: '14px', fontWeight: activeRange === '30d' ? '600' : '500',
-                  color: activeRange === '30d' ? '#553722' : '#50453e',
-                  cursor: 'pointer', transition: 'all 0.15s'
-                }}
-                className={activeRange === '30d' ? 'shadow-sm' : ''}
-              >
-                Last 30 Days
-              </button>
+            {/* Filter Range tabs - horizontally scrollable on mobile */}
+            <div className="no-scrollbar" style={{ overflowX: 'auto', flexShrink: 0 }}>
+              <div style={{ background: '#f0eded', padding: '4px', borderRadius: '8px', display: 'inline-flex', whiteSpace: 'nowrap' }}>
+                <button 
+                  onClick={() => { setActiveRange('today'); setCurrentPage(1); }}
+                  style={{
+                    background: activeRange === 'today' ? '#fff' : 'transparent',
+                    border: 'none', padding: '8px 20px', borderRadius: '6px',
+                    fontSize: '14px', fontWeight: activeRange === 'today' ? '600' : '500',
+                    color: activeRange === 'today' ? '#553722' : '#50453e',
+                    cursor: 'pointer', transition: 'all 0.15s'
+                  }}
+                  className={activeRange === 'today' ? 'shadow-sm' : ''}
+                >
+                  Today
+                </button>
+                <button 
+                  onClick={() => { setActiveRange('7d'); setCurrentPage(1); }}
+                  style={{
+                    background: activeRange === '7d' ? '#fff' : 'transparent',
+                    border: 'none', padding: '8px 20px', borderRadius: '6px',
+                    fontSize: '14px', fontWeight: activeRange === '7d' ? '600' : '500',
+                    color: activeRange === '7d' ? '#553722' : '#50453e',
+                    cursor: 'pointer', transition: 'all 0.15s'
+                  }}
+                  className={activeRange === '7d' ? 'shadow-sm' : ''}
+                >
+                  Last 7 Days
+                </button>
+                <button 
+                  onClick={() => { setActiveRange('30d'); setCurrentPage(1); }}
+                  style={{
+                    background: activeRange === '30d' ? '#fff' : 'transparent',
+                    border: 'none', padding: '8px 20px', borderRadius: '6px',
+                    fontSize: '14px', fontWeight: activeRange === '30d' ? '600' : '500',
+                    color: activeRange === '30d' ? '#553722' : '#50453e',
+                    cursor: 'pointer', transition: 'all 0.15s'
+                  }}
+                  className={activeRange === '30d' ? 'shadow-sm' : ''}
+                >
+                  Last 30 Days
+                </button>
+              </div>
             </div>
 
-            {/* Actions: Search inside page + Filter button */}
-            <div className="d-flex align-items-center gap-2">
-              <div className="d-lg-none" style={{ position: 'relative', flex: 1 }}>
-                {/* Search bar inside content for tablet/mobile only */}
+            {/* Actions: Search + Filter button */}
+            <div className="d-flex align-items-center gap-2" style={{ minWidth: 0 }}>
+              {/* Search bar – full width on mobile, auto on larger */}
+              <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
                 <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.6 }}>
                   <IconSearch />
                 </div>
@@ -393,14 +392,15 @@ export default function HistoryPage() {
                 />
               </div>
 
-              {/* Desktop Filter options trigger */}
+              {/* Filter button */}
               <button style={{
                 border: '1px solid #d4c3ba', background: '#fff', borderRadius: '8px',
-                padding: '10px 24px', display: 'flex', alignItems: 'center', gap: '8px',
-                fontSize: '14px', fontWeight: '500', color: '#1b1c1c', cursor: 'pointer'
+                padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '6px',
+                fontSize: '14px', fontWeight: '500', color: '#1b1c1c', cursor: 'pointer',
+                flexShrink: 0
               }} className="hover:bg-gray-50 transition-colors">
                 <IconFilter />
-                Filter
+                <span className="d-none d-sm-inline">Filter</span>
               </button>
             </div>
 
@@ -570,7 +570,33 @@ export default function HistoryPage() {
 
         </main>
       </div>
-    </div>
+      </div>
+
+      {/* ── MOBILE BOTTOM NAVIGATION (hidden on desktop) ── */}
+      <nav className="d-flex d-lg-none" style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
+        background: '#fcf9f8', borderTop: '1px solid #d4c3ba',
+        padding: '8px 0 calc(8px + env(safe-area-inset-bottom))',
+        justifyContent: 'space-around', alignItems: 'center'
+      }}>
+        {navItems.map(({ icon, label, active, to }) => (
+          <Link
+            key={label}
+            to={to}
+            style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+              padding: '6px 16px', borderRadius: '10px', textDecoration: 'none',
+              background: active ? 'rgba(160,243,153,0.2)' : 'transparent',
+              color: active ? '#217128' : '#82746d',
+              fontSize: '11px', fontWeight: active ? '600' : '400',
+              transition: 'all 0.15s', minWidth: '64px'
+            }}
+          >
+            {icon}
+            {label}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }

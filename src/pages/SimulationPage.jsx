@@ -301,18 +301,15 @@ export default function SimulationPage() {
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <div style={{ flex: 1, minWidth: 0, paddingLeft: '0' }} className="result-main-content">
-          <div style={{ marginLeft: '0', paddingTop: '0px' }} className="d-lg-none" />
-          <div style={{ marginLeft: '256px', paddingTop: '0px' }} className="d-none d-lg-block" />
-
-          <main className="px-3 px-md-5 py-4 py-md-5" style={{ maxWidth: '1200px', marginLeft: '256px' }}>
+        <div className="main-content-offset" style={{ flex: 1, minWidth: 0, width: '100%' }}>
+          <main style={{ padding: '28px 16px 80px', boxSizing: 'border-box', width: '100%', maxWidth: '1200px' }}>
           
           {/* Heading */}
           <div className="mb-4">
-            <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#1b1c1c', margin: 0, letterSpacing: '-0.32px' }}>
+            <h1 style={{ fontSize: 'clamp(20px, 5vw, 32px)', fontWeight: '700', color: '#1b1c1c', margin: 0, letterSpacing: '-0.32px' }}>
               Metabolic Simulation
             </h1>
-            <p style={{ fontSize: '16px', color: '#50453e', marginTop: '6px', marginBottom: 0 }}>
+            <p style={{ fontSize: '15px', color: '#50453e', marginTop: '6px', marginBottom: 0 }}>
               Adjust your physiological variables to predict caffeine clearance and sleep readiness.
             </p>
           </div>
@@ -404,7 +401,7 @@ export default function SimulationPage() {
               {/* Impact Analysis (Quick Stats Side-by-Side) */}
               <div className="row g-3">
                 {/* Waktu Tidur Aman */}
-                <div className="col-6">
+                <div className="col-12 col-sm-6">
                   <div style={{
                     background: '#a0f399', border: '1px solid rgba(27,109,36,0.2)',
                     borderRadius: '12px', padding: '18px', display: 'flex',
@@ -423,7 +420,7 @@ export default function SimulationPage() {
                 </div>
 
                 {/* Fokus Maksimal */}
-                <div className="col-6">
+                <div className="col-12 col-sm-6">
                   <div style={{
                     background: '#6f4e37', border: '1px solid rgba(85,55,34,0.2)',
                     borderRadius: '12px', padding: '18px', display: 'flex',
@@ -610,7 +607,33 @@ export default function SimulationPage() {
 
         </main>
       </div>
-    </div>
+      </div>
+
+      {/* ── MOBILE BOTTOM NAVIGATION (hidden on desktop) ── */}
+      <nav className="d-flex d-lg-none" style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
+        background: '#fcf9f8', borderTop: '1px solid #d4c3ba',
+        padding: '8px 0 calc(8px + env(safe-area-inset-bottom))',
+        justifyContent: 'space-around', alignItems: 'center'
+      }}>
+        {navItems.map(({ icon, label, active, to }) => (
+          <Link
+            key={label}
+            to={to}
+            style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+              padding: '6px 16px', borderRadius: '10px', textDecoration: 'none',
+              background: active ? 'rgba(160,243,153,0.2)' : 'transparent',
+              color: active ? '#217128' : '#82746d',
+              fontSize: '11px', fontWeight: active ? '600' : '400',
+              transition: 'all 0.15s', minWidth: '64px'
+            }}
+          >
+            {icon}
+            {label}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }
