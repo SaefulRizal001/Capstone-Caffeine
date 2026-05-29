@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import "bootstrap/dist/css/bootstrap.min.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-300: #9ee86f;
+  --bg-brand: #fdf5ea;
+}
+
+body {
+  background-color: var(--bg-brand);
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  color: #030712;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom premium styles */
+.text-brand-dark {
+  color: #030712;
+}
+
+.bg-brand-dark {
+  background-color: #030712;
+}
+
+.bg-brand-lime {
+  background-color: #9ee86f;
+}
+
+.text-brand-lime {
+  color: #9ee86f;
+}
+
+.bg-brand-cream {
+  background-color: #fdf5ea;
+}
+
+/* Micro-animations */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px -10px rgba(3, 7, 18, 0.15);
+}
+
+.btn-brand-dark {
+  background-color: #030712;
+  color: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-radius: 20px;
+  padding: 12px 32px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-brand-dark:hover {
+  background-color: #1a1f29;
+  border-color: #ffffff;
+  transform: scale(1.02);
+}
+
+.btn-brand-outline {
+  background-color: #f5f5f5;
+  color: #0a0a0a;
+  border: 1.5px solid #030712;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-brand-outline:hover {
+  background-color: #e5e5e5;
+  transform: scale(1.02);
+}
+
+/* Custom icons or elements from Figma design */
+.feature-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #9ee86f;
+  color: #030712;
+  transition: transform 0.2s ease;
+}
+
+.feature-arrow:hover {
+  transform: rotate(45deg);
+}
+
+.hover-text-green {
+  transition: color 0.15s ease-in-out;
+}
+
+.hover-text-green:hover {
+  color: #1b6d24 !important;
+}
+
