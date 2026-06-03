@@ -157,8 +157,8 @@ export default function HistoryPage() {
           <div>
             {/* Brand */}
             <div style={{ paddingBottom: '40px' }}>
-              <div style={{ fontSize: '22px', fontWeight: '800', color: '#553722', lineHeight: 1.2 }}>CaffeineLens</div>
-              <div style={{ fontSize: '13px', fontWeight: '500', color: '#50453e', letterSpacing: '0.14px', marginTop: '2px' }}>Bio-Hacker Edition</div>
+              <div style={{ fontSize: '22px', fontWeight: '800', color: '#553722', lineHeight: 1.2 }}>Kopi Metric</div>
+              <div style={{ fontSize: '13px', fontWeight: '500', color: '#50453e', letterSpacing: '0.14px', marginTop: '2px' }}>Analisis Konsumsi Kafein</div>
             </div>
 
             {/* Navigation */}

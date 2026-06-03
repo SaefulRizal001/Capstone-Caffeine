@@ -133,8 +133,8 @@ export default function ResultPage() {
           <div>
             {/* Brand */}
             <div style={{ paddingBottom: '40px' }}>
-              <div style={{ fontSize: '22px', fontWeight: '800', color: '#553722', lineHeight: 1.2 }}>CaffeineLens</div>
-              <div style={{ fontSize: '13px', fontWeight: '500', color: '#50453e', letterSpacing: '0.14px', marginTop: '2px' }}>Bio-Hacker Edition</div>
+              <div style={{ fontSize: '22px', fontWeight: '800', color: '#553722', lineHeight: 1.2 }}>Kopi Metric</div>
+              <div style={{ fontSize: '13px', fontWeight: '500', color: '#50453e', letterSpacing: '0.14px', marginTop: '2px' }}>Analisis Konsumsi Kafein</div>
             </div>
 
             {/* Nav */}
@@ -492,8 +492,8 @@ function PageContent({ hydration, setHydration, activity, setActivity, sleep, se
         </div>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           {[
-            { label: 'Espresso (Double)', color: '#553722', bg: 'rgba(85,55,34,0.1)', border: 'rgba(85,55,34,0.2)', icon: '☕' },
-            { label: 'Matcha Latte', color: '#1b6d24', bg: 'rgba(27,109,36,0.1)', border: 'rgba(27,109,36,0.2)', icon: '🍵' },
+            { label: 'Espresso', color: '#553722', bg: 'rgba(85,55,34,0.1)', border: 'rgba(85,55,34,0.2)', icon: '☕' },
+            { label: 'Latte/Cappucino', color: '#8b5a2b', bg: 'rgba(139,90,43,0.1)', border: 'rgba(139,90,43,0.2)', icon: '🥛' },
             { label: 'Cold Brew', color: '#57361c', bg: 'rgba(87,54,28,0.1)', border: 'rgba(87,54,28,0.2)', icon: '🧊' },
           ].map(({ label, color, bg, border, icon }) => (
             <div key={label} style={{
@@ -523,8 +523,7 @@ const IconClose = () => (
 function CaffeineModal({ onClose, onSave }) {
   const [selectedDrink, setSelectedDrink] = useState('espresso');
   const [searchQuery, setSearchQuery] = useState('');
-  const [volumeSize, setVolumeSize] = useState('M'); // S, M, L
-  const [shots, setShots] = useState(2);
+  const [frequency, setFrequency] = useState(1);
   const [timeOption, setTimeOption] = useState('now'); // 'now', 'custom'
 
   const getTenMinutesAgoTime = () => {
@@ -536,12 +535,10 @@ function CaffeineModal({ onClose, onSave }) {
   const [customTime, setCustomTime] = useState(getTenMinutesAgoTime());
 
   const beverages = [
-    { id: 'espresso', name: 'Espresso', icon: '☕', baseCaffeine: 75, desc: 'Espresso Arabica Blend' },
-    { id: 'americano', name: 'Americano', icon: '🥤', baseCaffeine: 60, desc: 'Classic Hot/Ice Americano' },
-    { id: 'matcha', name: 'Matcha', icon: '🍵', baseCaffeine: 50, desc: 'Premium Ceremonial Latte' },
-    { id: 'latte', name: 'Latte', icon: '🥛', baseCaffeine: 55, desc: 'Creamy Milk Coffee Latte' },
-    { id: 'energy', name: 'Energy', icon: '⚡', baseCaffeine: 80, desc: 'Taurine Energy Boost' },
-    { id: 'tea', name: 'Tea', icon: '🍃', baseCaffeine: 30, desc: 'Organic Herbal Green Tea' }
+    { id: 'espresso', name: 'Espresso', icon: '☕', baseCaffeine: 70, range: '60-80 mg', desc: 'Espresso Shot' },
+    { id: 'instant', name: 'Kopi Instan', icon: '☕', baseCaffeine: 80, range: '60-100 mg', desc: 'Instant Coffee' },
+    { id: 'latte', name: 'Latte/Cappucino', icon: '🥛', baseCaffeine: 92.5, range: '60-125 mg', desc: 'Latte / Cappuccino' },
+    { id: 'coldbrew', name: 'Cold Brew', icon: '🧊', baseCaffeine: 150, range: '100-200 mg', desc: 'Cold Brew Coffee' }
   ];
 
   // Live filter beverages based on search input
@@ -553,11 +550,8 @@ function CaffeineModal({ onClose, onSave }) {
   // Dynamic caffeine calculation
   const calculatedCaffeine = useMemo(() => {
     const selected = beverages.find(b => b.id === selectedDrink) || beverages[0];
-    const sizeMultiplier = volumeSize === 'S' ? 0.7 : volumeSize === 'L' ? 1.3 : 1.0;
-    // For espresso, shots directly scale it. For others, shots act as extra boosters.
-    const shotFactor = selected.id === 'espresso' ? (shots / 2) : (1 + (shots - 2) * 0.3);
-    return Math.round(selected.baseCaffeine * 2 * sizeMultiplier * shotFactor);
-  }, [selectedDrink, volumeSize, shots]);
+    return Math.round(selected.baseCaffeine * frequency);
+  }, [selectedDrink, frequency]);
 
   // Sleep Impact delay (minutes)
   const sleepImpactMin = Math.round(calculatedCaffeine * 0.3);
@@ -616,21 +610,25 @@ function CaffeineModal({ onClose, onSave }) {
               {filteredBeverages.map(b => {
                 const isActive = b.id === selectedDrink;
                 return (
-                  <div key={b.id} className="col-4">
+                  <div key={b.id} className="col-6">
                     <button
+                      type="button"
                       onClick={() => setSelectedDrink(b.id)}
                       style={{
-                        width: '100%', padding: '12px 8px', borderRadius: '12px',
+                        width: '100%', padding: '14px 16px', borderRadius: '12px',
                         background: isActive ? '#e4e2e1' : '#fcf9f8',
                         border: isActive ? '2px solid #553722' : '1.5px solid #d4c3ba',
-                        boxShadow: isActive ? '0 0 0 2px #fff, 0 0 0 4px #553722' : 'none',
-                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
+                        boxShadow: isActive ? '0 0 0 2px #fff, 0 0 0 3px #553722' : 'none',
+                        display: 'flex', alignItems: 'center', gap: '12px',
                         cursor: 'pointer', transition: 'all 0.15s'
                       }}
                       className="hover-lift"
                     >
-                      <span style={{ fontSize: '28px' }}>{b.icon}</span>
-                      <span style={{ fontSize: '13px', fontWeight: '700', color: '#553722' }}>{b.name}</span>
+                      <span style={{ fontSize: '32px', flexShrink: 0 }}>{b.icon}</span>
+                      <div style={{ textAlign: 'left' }}>
+                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#553722', display: 'block' }}>{b.name}</span>
+                        <span style={{ fontSize: '11px', color: '#82746d', fontWeight: '600' }}>{b.range}</span>
+                      </div>
                     </button>
                   </div>
                 );
@@ -638,88 +636,58 @@ function CaffeineModal({ onClose, onSave }) {
             </div>
           </div>
 
-          {/* Section 2: Size & Strength Customizers */}
-          <div className="row g-3">
-            {/* Size Selector */}
-            <div className="col-12 col-md-6 d-flex flex-column gap-2">
-              <span style={{ fontSize: '12px', fontWeight: '700', color: '#50453e', letterSpacing: '0.6px' }}>UKURAN (VOLUME)</span>
-
-              <div style={{ background: '#f6f3f2', border: '1px solid #d4c3ba', borderRadius: '8px', padding: '4px', display: 'flex', gap: '4px' }}>
-                {['S', 'M', 'L'].map(size => {
-                  const isActive = volumeSize === size;
-                  const label = size === 'S' ? 'S (30ml)' : size === 'M' ? 'M (60ml)' : 'L (90ml)';
-                  return (
-                    <button
-                      key={size}
-                      onClick={() => setVolumeSize(size)}
-                      style={{
-                        flex: 1, padding: '8px 4px', border: 'none', borderRadius: '4px',
-                        background: isActive ? '#fff' : 'transparent',
-                        color: isActive ? '#553722' : '#50453e',
-                        fontWeight: isActive ? '700' : '500',
-                        fontSize: '12px', cursor: 'pointer',
-                        boxShadow: isActive ? '0px 1px 1px rgba(0,0,0,0.05)' : 'none',
-                        transition: 'background 0.15s'
-                      }}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Volume scale visual slider */}
-              <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div style={{ background: '#d4c3ba', height: '6px', borderRadius: '9999px', position: 'relative' }}>
-                  <div style={{
-                    background: '#553722', height: '100%',
-                    width: volumeSize === 'S' ? '15%' : volumeSize === 'M' ? '50%' : '85%',
-                    borderRadius: '9999px', transition: 'width 0.2s ease'
-                  }} />
-                </div>
-                <div className="d-flex justify-content-between text-muted" style={{ fontSize: '10px', fontWeight: '600' }}>
-                  <span>30ml</span>
-                  <span>Double Shot</span>
-                  <span>150ml</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Strength Customizer */}
-            <div className="col-12 col-md-6 d-flex flex-column gap-2">
-              <span style={{ fontSize: '12px', fontWeight: '700', color: '#50453e', letterSpacing: '0.6px' }}>KEKUATAN (SHOTS)</span>
-
-              <div style={{
-                background: '#f6f3f2', border: '1px solid #d4c3ba', borderRadius: '8px',
-                padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-              }}>
-                <button
-                  onClick={() => setShots(s => Math.max(1, s - 1))}
+          {/* Section 2: Frequency Customizer */}
+          <div className="d-flex flex-column gap-2">
+            <span style={{ fontSize: '12px', fontWeight: '700', color: '#50453e', letterSpacing: '0.6px' }}>FREKUENSI KONSUMSI HARIAN</span>
+            <div style={{
+              background: '#f6f3f2', border: '1px solid #d4c3ba', borderRadius: '12px',
+              padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '16px',
+              maxWidth: '320px', justifyContent: 'space-between'
+            }}>
+              <button
+                type="button"
+                onClick={() => setFrequency(f => Math.max(1, f - 1))}
+                style={{
+                  background: '#fff', border: '1px solid #d4c3ba', borderRadius: '50%',
+                  width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '18px', fontWeight: 'bold', cursor: 'pointer'
+                }}
+                className="hover:bg-gray-100"
+              >
+                -
+              </button>
+              <div className="d-flex align-items-center gap-2">
+                <input
+                  type="number"
+                  min="1"
+                  max="20"
+                  value={frequency}
+                  onChange={e => setFrequency(Math.max(1, parseInt(e.target.value) || 1))}
                   style={{
-                    background: '#fff', border: '1px solid #d4c3ba', borderRadius: '50%',
-                    width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '18px', fontWeight: 'bold', cursor: 'pointer'
+                    width: '60px',
+                    fontSize: '22px',
+                    fontWeight: '700',
+                    color: '#553722',
+                    background: 'transparent',
+                    border: 'none',
+                    textAlign: 'center',
+                    outline: 'none',
                   }}
-                  className="hover:bg-gray-100"
-                >
-                  -
-                </button>
-                <div className="text-center">
-                  <span style={{ fontSize: '22px', fontWeight: '700', color: '#553722', display: 'block', lineHeight: 1 }}>{shots}</span>
-                  <span style={{ fontSize: '11px', fontWeight: '600', color: '#50453e' }}>Espresso Shots</span>
-                </div>
-                <button
-                  onClick={() => setShots(s => Math.min(5, s + 1))}
-                  style={{
-                    background: '#fff', border: '1px solid #d4c3ba', borderRadius: '50%',
-                    width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '18px', fontWeight: 'bold', cursor: 'pointer'
-                  }}
-                  className="hover:bg-gray-100"
-                >
-                  +
-                </button>
+                />
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#50453e' }}>cangkir / hari</span>
               </div>
+              <button
+                type="button"
+                onClick={() => setFrequency(f => Math.min(20, f + 1))}
+                style={{
+                  background: '#fff', border: '1px solid #d4c3ba', borderRadius: '50%',
+                  width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '18px', fontWeight: 'bold', cursor: 'pointer'
+                }}
+                className="hover:bg-gray-100"
+              >
+                +
+              </button>
             </div>
           </div>
 
@@ -729,6 +697,7 @@ function CaffeineModal({ onClose, onSave }) {
             <div className="row g-2">
               <div className="col-12 col-sm-6">
                 <button
+                  type="button"
                   onClick={() => setTimeOption('now')}
                   style={{
                     width: '100%', padding: '12px', borderRadius: '8px',
@@ -754,6 +723,7 @@ function CaffeineModal({ onClose, onSave }) {
 
               <div className="col-12 col-sm-6">
                 <button
+                  type="button"
                   onClick={() => setTimeOption('custom')}
                   style={{
                     width: '100%', padding: '12px', borderRadius: '8px',
@@ -791,45 +761,6 @@ function CaffeineModal({ onClose, onSave }) {
                   </div>
                 </button>
               </div>
-            </div>
-          </div>
-
-          {/* Section 4: Dynamic Metrics Preview */}
-          <div style={{
-            background: '#f0eded', border: '1px solid rgba(212,195,186,0.5)', borderRadius: '12px',
-            padding: '20px', display: 'flex', justifyContent: 'space-between', gap: '16px',
-            position: 'relative', overflow: 'hidden'
-          }}>
-            {/* Background design graphic */}
-            <div style={{
-              position: 'absolute', top: 0, right: 0, width: '90px', height: '90px',
-              background: 'linear-gradient(135deg, rgba(85,55,34,0.05), transparent)', borderRadius: '0 0 0 100%'
-            }} />
-
-            {/* Estimasi Kafein */}
-            <div className="flex-1 d-flex flex-column gap-1">
-              <span style={{ fontSize: '11px', fontWeight: '700', color: '#50453e', letterSpacing: '0.6px' }}>ESTIMASI KAFEIN</span>
-              <div className="d-flex align-items-baseline gap-1">
-                <span style={{ fontSize: '28px', fontWeight: '700', color: '#553722', lineHeight: 1 }}>{calculatedCaffeine}</span>
-                <span style={{ fontSize: '13px', fontWeight: '500', color: '#553722' }}>mg</span>
-              </div>
-            </div>
-
-            {/* Dampak Tidur */}
-            <div className="flex-1 d-flex flex-column gap-1">
-              <span style={{ fontSize: '11px', fontWeight: '700', color: '#50453e', letterSpacing: '0.6px' }}>DAMPAK TIDUR</span>
-              <div className="d-flex align-items-center gap-2">
-                <span style={{ fontSize: '16px', fontWeight: '700', color: '#1b1c1c' }}>-{sleepImpactMin}mnt</span>
-                <span style={{
-                  background: '#fef3c7', border: '1px solid #fde68a', borderRadius: '9999px',
-                  padding: '2px 8px', fontSize: '10px', color: '#92400e', fontWeight: '600'
-                }}>
-                  {sleepImpactMin > 60 ? 'High' : sleepImpactMin > 30 ? 'Moderate' : 'Low'}
-                </span>
-              </div>
-              <span style={{ fontSize: '10px', color: '#50453e', marginTop: '2px' }}>
-                Waktu paruh diperkirakan hingga 22:30.
-              </span>
             </div>
           </div>
 

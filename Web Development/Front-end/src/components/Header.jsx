@@ -88,7 +88,7 @@ export default function Header() {
         {/* BRAND LOGO */}
         <Link to="/" className="d-flex align-items-center text-decoration-none text-white hover:opacity-90">
           <span className="fs-3 fw-bold tracking-tight text-white m-0" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
-            ScansCoffee
+            KopiMetric
           </span>
         </Link>
 
@@ -167,7 +167,7 @@ export default function Header() {
                   {/* User Profile Info Header inside dropdown */}
                   <div className="px-4 py-3 bg-[#fcf9f8] border-bottom border-[#eae7e7]">
                     <div className="fw-bold text-[#1b1c1c]" style={{ fontSize: '15px' }}>{userName}</div>
-                    <div className="text-muted" style={{ fontSize: '12px' }}>alex.chen@scanscoffee.com</div>
+                    <div className="text-muted" style={{ fontSize: '12px' }}>alex.chen@kopimetric.com</div>
                     <span className="badge bg-[#1b6d24]/10 text-[#1b6d24] mt-1.5 fw-semibold" style={{ fontSize: '10px' }}>Active Member</span>
                   </div>
 

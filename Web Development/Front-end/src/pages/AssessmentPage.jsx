@@ -116,7 +116,7 @@ export default function AssessmentPage() {
                 {step === 3 && 'RIWAYAT KESEHATAN & TUJUAN'}
               </span>
               <span className="text-[#50453e] fw-medium text-xs" style={{ fontSize: '12px', fontStyle: step >= 2 ? 'italic' : 'normal' }}>
-                {step >= 2 ? 'CaffeineLens Bio-Hacker Edition' : `Langkah ${step} dari 3`}
+                {step >= 2 ? 'Kopi Metric Analisis Konsumsi Kafein' : `Langkah ${step} dari 3`}
               </span>
             </div>
             
@@ -270,27 +270,28 @@ export default function AssessmentPage() {
                     {/* Coffee Types - Pill chips */}
                     <div>
                       <label className="form-label fw-medium text-[#50453e] mb-2" style={{ fontSize: '13.5px', letterSpacing: '0.14px' }}>Jenis kopi yang sering dikonsumsi</label>
-                      <div className="d-flex flex-wrap gap-2">
-                        {['Espresso', 'Latte / Cappuccino', 'Cold Brew', 'Matcha / Teh Hijau'].map((type) => {
+                      <div className="row g-2">
+                        {['Espresso : 60-80 mg', 'Kopi Instan : 60-100 mg', 'Latte/Cappucino : 60-125 mg', 'Cold Brew : 100-200 mg'].map((type) => {
                           const isActive = selectedCoffeeType === type;
                           return (
-                            <button
-                              key={type}
-                              type="button"
-                              onClick={() => setValue('coffeeType', type, { shouldValidate: true })}
-                              className={`btn border transition-all`}
-                              style={{
-                                borderRadius: '9999px',
-                                fontSize: '15px',
-                                padding: '10px 22px',
-                                fontWeight: isActive ? '600' : '400',
-                                background: isActive ? '#1b6d24' : '#fcf9f8',
-                                borderColor: isActive ? '#1b6d24' : '#d4c3ba',
-                                color: isActive ? '#fff' : '#50453e'
-                              }}
-                            >
-                              {type}
-                            </button>
+                            <div key={type} className="col-12 col-sm-6">
+                              <button
+                                type="button"
+                                onClick={() => setValue('coffeeType', type, { shouldValidate: true })}
+                                className="btn w-100 border transition-all text-center"
+                                style={{
+                                  borderRadius: '9999px',
+                                  fontSize: '15px',
+                                  padding: '10px 22px',
+                                  fontWeight: isActive ? '600' : '400',
+                                  background: isActive ? '#1b6d24' : '#fcf9f8',
+                                  borderColor: isActive ? '#1b6d24' : '#d4c3ba',
+                                  color: isActive ? '#fff' : '#50453e'
+                                }}
+                              >
+                                {type}
+                              </button>
+                            </div>
                           );
                         })}
                       </div>
@@ -339,11 +340,11 @@ export default function AssessmentPage() {
                       <label className="form-label fw-medium text-[#50453e] mb-2" style={{ fontSize: '13.5px', letterSpacing: '0.14px' }}>Tingkat Aktivitas Fisik</label>
                       <div className="row g-2">
                         {[
-                          { key: 'Sedentary', label: 'Sedentary', icon: '🪑' },
-                          { key: 'Lightly Active', label: 'Lightly Active', icon: '🚶' },
-                          { key: 'Very Active', label: 'Very Active', icon: '🏃' },
-                          { key: 'Athlete', label: 'Athlete', icon: '⚡' },
-                        ].map(({ key, label, icon }) => {
+                          { key: 'Sedentary', label: 'Sedentary', icon: '🪑', sublabel: '<1 Jam/Minggu' },
+                          { key: 'Lightly Active', label: 'Lightly Active', icon: '🚶', sublabel: '1-3 Jam/Minggu' },
+                          { key: 'Very Active', label: 'Very Active', icon: '🏃', sublabel: '4-8 Jam/Minggu' },
+                          { key: 'Athlete', label: 'Athlete', icon: '⚡', sublabel: '>8 Jam/Minggu' },
+                        ].map(({ key, label, icon, sublabel }) => {
                           const isActive = selectedActivityLevel === key;
                           return (
                             <div key={key} className="col-6 col-sm-3">
@@ -353,17 +354,15 @@ export default function AssessmentPage() {
                                 className="btn w-100 d-flex flex-col align-items-center justify-content-center gap-1 border transition-all"
                                 style={{
                                   borderRadius: '12px',
-                                  padding: '20px 8px',
-                                  fontSize: '11px',
-                                  fontWeight: isActive ? '700' : '600',
-                                  letterSpacing: '0.6px',
+                                  padding: '18px 6px',
                                   background: isActive ? 'rgba(160,243,153,0.2)' : '#fff',
                                   borderColor: isActive ? '#1b6d24' : '#d4c3ba',
                                   color: isActive ? '#217128' : '#1b1c1c',
                                 }}
                               >
-                                <span style={{ fontSize: '20px' }}>{icon}</span>
-                                <span style={{ textTransform: 'uppercase' }}>{label}</span>
+                                <span style={{ fontSize: '22px' }}>{icon}</span>
+                                <span style={{ textTransform: 'uppercase', fontSize: '13px', fontWeight: isActive ? '700' : '600', letterSpacing: '0.6px' }}>{label}</span>
+                                <span style={{ fontSize: '11px', textTransform: 'none', color: isActive ? '#1b6d24' : '#6b5e56', fontWeight: '500', marginTop: '2px' }}>{sublabel}</span>
                               </button>
                             </div>
                           );
